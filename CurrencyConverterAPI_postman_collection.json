@@ -1,0 +1,293 @@
+{
+	"info": {
+		"_postman_id": "e04e0dd1-dac0-4042-b6eb-a315739fadc2",
+		"name": "CurrencyConverterAPI",
+		"description": "Its a free API available on the www.rapidapi.com\nURL- https://currency-converter5.p.rapidapi.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAvailableCurrency",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "148b9fc4-2cc4-485e-97fc-242db699e093",
+						"exec": [
+							"const responseData=pm.response.json();  //Convert the json response to a javascript object",
+							"let currenciesList=responseData.currencies;  //Get the currencies object in a variable",
+							"let count=0;",
+							"//Calculate the count of total currencies",
+							"for (let i in currenciesList)",
+							"{",
+							"    if(currenciesList.hasOwnProperty(i))",
+							"    count++;",
+							"    ",
+							"}",
+							"pm.test(\"Verify the count of currencies\", function()",
+							"{",
+							"    pm.expect(count).to.eql(77);",
+							"    //Store the Count Of 0Currencies in environment variable",
+							"    pm.environment.set(\"CountOfCurrencies\",count);",
+							"});",
+							"",
+							"//Logging some values for showing in the report.",
+							"console.log(`${pm.info.requestName}- Total available currencies are :`+count);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_uri}}/currency/list",
+					"host": [
+						"{{base_uri}}"
+					],
+					"path": [
+						"currency",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetHistoricalCurrencyRate",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "33f4fa16-2cc9-47b3-ad6b-8e6f47b664db",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "dc70beb1-e8b5-4fe4-896c-6aa94de1070f",
+						"exec": [
+							"const responseData=pm.response.json(); //Convert the json response to a javascript object",
+							"pm.test(\"Verify that the response contains amount key \",function()",
+							"{",
+							"    let amount=parseInt(responseData.amount);",
+							"    pm.expect(amount).to.be.eql(parseInt(pm.environment.get(\"amount\")));",
+							"});",
+							"pm.test(\"Verify that the response contains base_currency_code key\",function()",
+							"{",
+							"    pm.expect(responseData.base_currency_code).to.be.eql(\"EUR\");",
+							"});",
+							"pm.test(\"Verify that the response contains base_currency_name key\",function()",
+							"{",
+							"    pm.expect(responseData.base_currency_name).to.be.eql(\"Euro\");",
+							"});",
+							"let currenciesList=responseData.rates;  //Get the currencies object in a variable",
+							"let count=0;",
+							"//Calculate the count of total currencies",
+							"for (let i in currenciesList)",
+							"{",
+							"    if(currenciesList.hasOwnProperty(i))",
+							"      count++;",
+							"}",
+							"pm.test(\"Verify the count of currencies\", function()",
+							"{",
+							"    pm.expect(count).to.eql(pm.environment.get(\"CountOfCurrencies\"));",
+							"});",
+							"pm.test(\"Verify that response contains updated_date key\",function()",
+							"{",
+							"    pm.expect(responseData.updated_date).to.be.eql(pm.environment.get(\"date\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_uri}}/currency/historical/:date?amount={{amount}}",
+					"host": [
+						"{{base_uri}}"
+					],
+					"path": [
+						"currency",
+						"historical",
+						":date"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "{{amount}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "date",
+							"value": "{{date}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ConvertCurrency",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "573b700c-c07c-4e29-83c1-fe2fa1e7eafa",
+						"exec": [
+							"const responseData=pm.response.json(); //Convert the json response to a javascript object",
+							"pm.test(\"Verify that the response contains amount key \",function()",
+							"{",
+							"    let amount=parseInt(responseData.amount);",
+							"    pm.expect(amount).to.be.eql(parseInt(pm.environment.get(\"amount\")));",
+							"});",
+							"pm.test(\"Verify that the response contains base_currency_code key\",function()",
+							"{",
+							"    pm.expect(responseData.base_currency_code).to.be.eql(\"EUR\");",
+							"});",
+							"pm.test(\"Verify that the response contains base_currency_name key\",function()",
+							"{",
+							"    pm.expect(responseData.base_currency_name).to.be.eql(\"Euro\");",
+							"});",
+							"let currenciesList=responseData.rates;  //Get the currencies object in a variable",
+							"let count=0;",
+							"//Calculate the count of total currencies",
+							"for (let i in currenciesList)",
+							"{",
+							"    if(currenciesList.hasOwnProperty)",
+							"     count++;",
+							"}",
+							"pm.test(\"Verify the count of currencies\", function()",
+							"{",
+							"    pm.expect(count).to.eql(pm.environment.get(\"CountOfCurrencies\"));",
+							"});",
+							"//Calculate current date ",
+							"var currentDate = new Date();",
+							"var dd = String(currentDate.getDate()).padStart(2, '0');",
+							"var mm = String(currentDate.getMonth() + 1).padStart(2, '0'); //January is 0!",
+							"var yyyy = currentDate.getFullYear();",
+							"currentDate = yyyy + '-' + mm + '-' + dd;",
+							"",
+							"pm.test(\"Verify that response contains updated_date key\",function()",
+							"{",
+							"    pm.expect(responseData.updated_date).to.be.eql(currentDate);",
+							"});",
+							"//Logging some data for showing it in reports",
+							"console.log(`${pm.info.requestName}-Current rate of 1 Euro is :`+responseData.rates[\"INR\"].rate +' Indian Rupees');"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_uri}}/currency/convert?amount={{amount}}",
+					"host": [
+						"{{base_uri}}"
+					],
+					"path": [
+						"currency",
+						"convert"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "{{amount}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{api_key}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-RapidAPI-Key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "ad7af797-6729-4bfa-a808-94c9e915bd93",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2ba86b2e-5200-4eb1-a5bb-11e84e2c88ba",
+				"type": "text/javascript",
+				"exec": [
+					"//Collection level assertion",
+					"    ",
+					"const responseData=pm.response.json();",
+					"pm.test(\"Verify Status code is 200\",",
+					"function()",
+					"{",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"       ",
+					"pm.test(\"Verify Content-Type header is application/json \",",
+					"function()",
+					"{",
+					"    pm.response.to.have.header(\"Content-Type\",\"application/json\");",
+					"});       ",
+					"pm.test(\"Verify Server header is RapidAPI-1.1.0 \",",
+					"function()",
+					"{",
+					"   pm.response.to.have.header(\"Server\",\"RapidAPI-1.1.0\"); ",
+					"});    ",
+					"pm.test(\"Verify the response is in json format\",",
+					"function(){",
+					"   pm.response.to.be.json; ",
+					"});",
+					"pm.test(\"Verify response body has status flag and its value is success\",",
+					"function()",
+					"{",
+					"    pm.expect(responseData.status).to.eql(\"success\");",
+					"});"
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

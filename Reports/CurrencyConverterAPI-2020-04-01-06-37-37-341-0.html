@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Newman Summary Report</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet prefetch" href='https://use.fontawesome.com/releases/v5.0.10/css/all.css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github-gist.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.css"/>
+
+<style>
+.theme-dark {
+    --background-color: #222;
+    --bg-card-deck: #444444;
+    --text-color: #ccd2d8;
+    --tab-border: solid 1px #444;
+    --success: #3c9372;
+    --failure: #c24a3f;
+    --warning: #d28c23;
+    --info: #4083b6;
+    --badge-outline: #3c9372;
+    --badge-bg: #cdd3db;
+    --badge-text: #ccd2d9;
+    --failure-row: #c24a3f;
+    --warning-row: #d28c23;
+    --card-bg: #444;
+    --card-footer: #4f5758;
+    --form-input: #ececb5;
+    --hov-text: #d2dae5;
+    --h4-text: #ccd1d9;
+}
+
+.theme-light {
+    --tab-border: solid 1px #fff;
+    --text-color: #000000;
+    --success: #42a745;
+    --failure: #dc3544;
+    --warning: #f4c10b;
+    --info: #49a1b8;
+    --badge-outline: #040411;
+    --badge-bg: #f8f9fa;
+    --badge-text: #fff;
+    --failure-row: #f5c6cb;
+    --warning-row: #ffeeba;
+    --card-bg: #f7f7f7;
+    --hov-text: #fff;
+    --h4-text: #ffffff;
+}
+
+body {
+  padding-top:30px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+#execution-data {
+  padding: 10px;
+  border: var(--tab-border);
+  border-top: none;
+}
+
+.nav-tabs {
+  padding-top: 10px;
+  height: 105px;
+  overflow-y: auto;
+}
+
+.card-header {
+    background-color: var(--card-bg)!important;
+}
+
+.card-body {
+    background-color: var(--card-bg)!important;
+}
+
+.card-footer {
+    padding: .75rem 1.25rem;
+    background-color: var(--card-footer);
+}
+
+.card-deck {
+    background-color: var(--bg-card-deck)!important;
+}
+.form-control {
+    background: var(--form-input);
+}
+
+.custom-tab {
+  padding: 10px 15px;
+  margin-right: 0px;
+  height: 46px;
+  width: 59px;
+  text-align: center;
+  border: var(--tab-border);
+  border-bottom: none;
+  cursor:pointer;
+}
+
+body.theme-dark .text-white {
+    color: #ccd2d9!important;
+}
+h4 {
+    color: var(--h4-text);
+}
+
+body.theme-dark h1 {
+    color: #ccd2da;
+}
+
+body.theme-dark .bg-light>td {
+    background: #4f5858!important;
+}
+
+body.theme-dark .hljs {
+    background: #0f0f0f82!important;
+    color: #8d8787!important;
+}
+
+.bg-info {
+    background-color: var(--info)!important;
+}
+.bg-success {
+    background-color: var(--success)!important;
+}
+
+.alert-success {
+    background-color: var(--success)!important;
+}
+
+.alert-warning {
+    background-color: var(--warning)!important;
+}
+
+.alert-info {
+    background-color: var(--info)!important;
+}
+
+.bg-warning {
+    background-color: var(--warning)!important;
+}
+
+.badge-warning {
+    color: var(--badge-text)!important;
+    background-color: var(--warning)!important;
+}
+
+.table-warning>td {
+    background-color: var(--warning-row);
+}
+
+.alert-danger {
+    background-color: var(--failure)!important;
+}
+
+body.theme-dark .alert-dark {
+    background-color: #636467!important;
+}
+
+body.theme-dark .text-dark {
+    color: #d1dae4!important;
+}
+
+.badge-light {
+    color: #212529;
+    background-color: var(--badge-bg);
+}
+
+.bg-danger {
+    background-color: var(--failure)!important;
+}
+
+.table-danger>td {
+    background-color: var(--failure-row);
+}
+
+body.theme-dark .table .thead-light th {
+    background-color: #4f5858!important;
+    border-color: #dee2e6!important;
+    color: #ccd2d8!important;
+}
+
+.itPassed {
+  background: var(--success);
+  color: white;
+}
+.itFailed {
+  background: var(--failure);
+  color: white;
+}
+
+.resultsInfoPass {
+  color: var(--success);
+  padding-top: 4px;
+}
+
+.resultsInfoFail {
+  color: var(--failure);
+  padding-top: 4px;
+}
+
+.badge-outline-success {
+  color: var(--success);
+  border: 1px solid var(--success);
+  background-color: transparent;
+}
+
+.badge-outline {
+  color: var(--badge-outline);
+  border: 1px solid var(--badge-outline);
+  background-color: transparent;
+}
+
+.btn-outline-success {
+    color: var(--success)!important;
+    border-color: var(--success)!important;
+}
+
+.backToTop:hover {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--hov-text)!important;
+}
+
+.btn-outline-success:hover {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--hov-text)!important;
+}
+
+.btn-outline-secondary {
+  background-color: var(--success)!important;
+  color: var(--hov-text)!important;
+}
+
+body, html {
+  height:100%;
+}
+
+.card {
+  overflow:hidden;
+}
+
+.card-body .rotate {
+  z-index: 8;
+  float: right;
+  height: 100%;
+}
+
+.card-body .rotate i {
+  color: rgba(20, 20, 20, 0.15);
+  position: absolute;
+  left: 0;
+  left: auto;
+  right: -10px;
+  bottom: 0;
+  display: block;
+  -webkit-transform: rotate(-44deg);
+  -moz-transform: rotate(-44deg);
+  -o-transform: rotate(-44deg);
+  -ms-transform: rotate(-44deg);
+  transform: rotate(-44deg);
+}
+.dyn-height {
+  max-height:350px;
+  overflow-y:auto;
+}
+
+.nav-pills .nav-link.active {
+  background-color: transparent!important;
+}
+
+.backToTop {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.card-header .fa {
+  transition: .3s transform ease-in-out;
+}
+.card-header .collapsed .fa {
+  transform: rotate(90deg);
+}
+
+.single-line-tabs {
+  padding-top: 10px;
+  height: 60px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 0px;
+  bottom: 4px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  box-shadow: 0 0px 15px #2020203d;
+  background: white;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+input:checked + .slider {
+  background-color: #4083b6;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #4083b6;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(24px);
+  -ms-transform: translateX(24px);
+  transform: translateX(24px);
+  background: white;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+</style>
+</head>
+<body class="">
+  <div class="container">
+        <div class="container">
+            <label>Light</label>
+            <label id="switch" class="switch">
+                <input type="checkbox" onchange="toggleTheme()" id="slider">
+                <span class="slider round"></span>
+            </label>
+            <label>Dark</label>
+        </div>
+        <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
+            <li class="nav-item bg-info active" data-toggle="tooltip" title="Click to view the Summary">
+                <a class="nav-link text-white" id="pills-summary-tab" data-toggle="pill" href="#pills-summary" role="tab" aria-controls="pills-summary" aria-selected="true">Summary</a>
+            </li>
+            <li class="nav-item bg-success" data-toggle="tooltip" title="Click to view the Requests">
+                <a class="nav-link text-white" id="pills-requests-tab" data-toggle="pill" href="#pills-requests" role="tab" aria-controls="pills-requests" aria-selected="false">Total Requests <span class="badge badge-light">3</span></a>
+            </li>
+            <li class="nav-item bg-danger" data-toggle="tooltip" title="Click to view the Failed Tests">
+                <a class="nav-link text-white" id="pills-failed-tab" data-toggle="pill" href="#pills-failed" role="tab" aria-controls="pills-failed" aria-selected="false">Failed Tests <span class="badge badge-light">0</span></a>
+            </li>
+            <li class="nav-item bg-warning" data-toggle="tooltip" title="Click to view the Skipped Tests">
+                <a class="nav-link text-white" id="pills-skipped-tab" data-toggle="pill" href="#pills-skipped" role="tab" aria-controls="pills-skipped" aria-selected="false">Skipped Tests <span class="badge badge-light">0</span></a>
+            </li>
+            <li class="nav-item bg-info" data-toggle="tooltip" title="Click to view the Console Logs">
+                <a class="nav-link text-white" id="pills-logs-tab" data-toggle="pill" href="#pills-logs" role="tab" aria-controls="pills-logs" aria-selected="false">Console Logs <span class="badge badge-light">2</span></a>
+            </li>
+            </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-summary" role="tabcard" aria-labelledby="pills-summary-tab">
+<div class="row">
+  <div class="col-md-9 col-lg-12 main">
+   <h1 class="display-2 text-center">Test Summary Report</h1>
+   <h5 class="text-center">Wednesday, 01 April 2020 12:07:37</h5>
+   <div class="row">
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-success">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-retweet fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Iterations</h6>
+       <h1 class="display-1">1</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-danger">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-list fa-4x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Assertions</h6>
+       <h1 class="display-1">26</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-info">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-plus-circle fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Failed Tests</h6>
+       <h1 class="display-1">0</h1>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+     <div class="card text-white card-warning">
+      <div class="card-body bg-success">
+       <div class="rotate">
+        <i class="fa fa-share fa-5x"></i>
+       </div>
+       <h6 class="text-uppercase">Total Skipped Tests</h6>
+       <h1 class="display-1">0</h1>
+      </div>
+     </div>
+    </div>
+   </div>
+   <hr>
+    <div class="row">
+    <div class="col">
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="card border-info">
+                <div class="card-body">
+                <h5 class="card-title text-uppercase text-white text-center bg-info">File Information</h5>
+                <span><i class="fas fa-file-code"></i></span><strong> Collection:</strong> CurrencyConverterAPI<br>
+                <span><i class="fas fa-file-code"></i></span><strong> Environment:</strong> CurrencyConverterAPI<br>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="card border-info">
+                <div class="card-body">
+                <h5 class="card-title text-uppercase text-white text-center bg-info">Collection Description</h5>
+                <div class="dyn-height">
+                    <pre id="description">Its a free API available on the www.rapidapi.com
+URL- https://currency-converter5.p.rapidapi.com</pre>
+                </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="card border-info">
+                <div class="card-body">
+                <h5 class="card-title text-uppercase text-white text-center bg-info">Timings and Data</h5>
+                <span><i class="fas fa-stopwatch"></i></span><strong> Total run duration:</strong> 2.1s<br>
+                <span><i class="fas fa-database"></i></span><strong> Total data received:</strong> 15.14KB<br>
+                <span><i class="fas fa-stopwatch"></i></span><strong> Average response time:</strong> 562ms<br>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-inverse">
+                    <tr class="text-center">
+                        <th class="text-uppercase">Summary Item</th>
+                        <th class="text-uppercase">Total</th>
+                        <th class="text-uppercase">Failed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Requests</td>
+                        <td class="text-center">3</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                        <td>Prerequest Scripts</td>
+                        <td class="text-center">4</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr>
+                        <td>Test Scripts</td>
+                        <td class="text-center">6</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr class="">
+                        <td>Assertions</td>
+                        <td class="text-center">26</td>
+                        <td class="text-center">0</td>
+                    </tr>
+                    <tr class="">
+                        <td>Skipped Tests</td>
+                        <td class="text-center">0</td>
+                        <td class="text-center">-</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    <hr>
+   </div>
+   </div>
+  </div>
+ </div>
+        </div>
+            <div class="tab-pane fade" id="pills-failed" role="tabcard" aria-labelledby="pills-failed-tab">
+                <button id="topOfFailuresScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+                <div class="alert alert-success text-uppercase text-center">
+                     <br><br><h1 class="text-center">There are no failed tests <span><i class="far fa-thumbs-up"></i></span></h1><br><br>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pills-skipped" role="tabcard" aria-labelledby="pills-skipped-tab">
+                <button id="topOfSkippedScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+                <div class="alert alert-success text-uppercase text-center">
+                    <br><br><h1 class="text-center">There are no skipped tests <span><i class="far fa-thumbs-up"></i></span></h1><br><br>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-logs" role="tabcard" aria-labelledby="pills-logs-tab">
+                <button id="topOfLogsScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+                    <div class="alert alert-info text-uppercase text-center">
+                        <h4>Showing 2 Console Log Messages</h4>
+                    </div>
+                    <div class="col-sm-12 mb-3">
+                    <div class="card-deck">
+                        <div class="card border-info">
+                            <div class="card-header bg-info text-white">
+                                <a data-toggle="collapse" href="#" data-target="#logs-collapse-f75d8593-2aa7-4306-a4d7-081da49cdd79" aria-expanded="false" aria-controls="collapse" id="logs-f75d8593-2aa7-4306-a4d7-081da49cdd79" class="collapsed text-white z-block">
+                                    Iteration 1 - Log Message <i class="float-lg-right fa fa-chevron-down"></i>
+                                </a>
+                            </div>
+                            <div id="logs-collapse-f75d8593-2aa7-4306-a4d7-081da49cdd79" class="collapse" aria-labelledby="logs-f75d8593-2aa7-4306-a4d7-081da49cdd79">
+                            <div class="card-body">
+                                <pre><code>GetAvailableCurrency- Total available currencies are :77</code></pre>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-sm-12 mb-3">
+                    <div class="card-deck">
+                        <div class="card border-info">
+                            <div class="card-header bg-info text-white">
+                                <a data-toggle="collapse" href="#" data-target="#logs-collapse-248ea770-b9f0-49be-81dc-cfdc0ab92c32" aria-expanded="false" aria-controls="collapse" id="logs-248ea770-b9f0-49be-81dc-cfdc0ab92c32" class="collapsed text-white z-block">
+                                    Iteration 1 - Log Message <i class="float-lg-right fa fa-chevron-down"></i>
+                                </a>
+                            </div>
+                            <div id="logs-collapse-248ea770-b9f0-49be-81dc-cfdc0ab92c32" class="collapse" aria-labelledby="logs-248ea770-b9f0-49be-81dc-cfdc0ab92c32">
+                            <div class="card-body">
+                                <pre><code>ConvertCurrency-Current rate of 1 Euro is :82.8985 Indian Rupees</code></pre>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+            <div class="tab-pane fade" id="pills-requests" role="tabcard" aria-labelledby="pills-requests-tab">
+
+            <button id="topOfRequestsScreen" class="btn btn-outline-success btn-sm backToTop" onclick="topFunction()">Go To Top</button>
+            
+            <div class="btn-group float-right" role="group" aria-label="Button Group">
+                <button id="openAll" class="btn btn-outline-success btn-sm float-right">Expand Folders</button>
+                <button id="openAllRequests" class="btn btn-outline-success btn-sm float-right">Expand Requests</button>
+                <button id="closeAll" class="btn btn-outline-success btn-sm float-right">Collapse Folders</button>
+                <button id="closeAllRequests" class="btn btn-outline-success btn-sm float-right">Collapse Requests</button>
+            </div>
+
+    <div class="text-uppercase" id="execution-menu">
+        <h5>1 Iteration available to view</h5>
+        
+        <nav class="table-responsive">
+        <ul class="nav single-line-tabs" id="iterationList">
+        </ul>
+        </nav>
+    </div>
+    <h6 class="text-uppercase text-muted" id="iterationSelected" style="padding-top: 10px;"></h6>
+	<div class="tab-content" id="execution-data">
+            <div id="folder-f75d8593-2aa7-4306-a4d7-081da49cdd79" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-f75d8593-2aa7-4306-a4d7-081da49cdd79" aria-expanded="false" aria-controls="collapse" id="requests-f75d8593-2aa7-4306-a4d7-081da49cdd79" class="collapsed text-white z-block">
+                    Iteration: 1 - GetAvailableCurrency <i class="float-lg-right fa fa-chevron-down"></i>
+                </a>
+                    </div>
+                    <div id="collapse-f75d8593-2aa7-4306-a4d7-081da49cdd79" class="collapse" aria-labelledby="requests-f75d8593-2aa7-4306-a4d7-081da49cdd79">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> GET</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://currency-converter5.p.rapidapi.com/currency/list" target="_blank">https://currency-converter5.p.rapidapi.com/currency/list</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 200 - OK</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 1138ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 1.78KB</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar  bg-success" style="width: 100%" role="progressbar">
+                                            <h5><strong>100 %</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td>PostmanRuntime/7.22.0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td>*/*</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td>no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td>d79d5b1d-ed2d-4477-bca2-2092944aebe7</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td>currency-converter5.p.rapidapi.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td>gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td>keep-alive</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Age</td>
+                                                    <td>2625</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Cache-Control</td>
+                                                    <td>max-age&#x3D;7200</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">CF-Cache-Status</td>
+                                                    <td>HIT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">CF-RAY</td>
+                                                    <td>57d04d623ff1cdc3-CDG</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Encoding</td>
+                                                    <td>br</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td>application/json</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td>Wed, 01 Apr 2020 06:37:34 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Expect-CT</td>
+                                                    <td>max-age&#x3D;604800, report-uri&#x3D;&quot;https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct&quot;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td>RapidAPI-1.1.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Set-Cookie</td>
+                                                    <td>__cfduid&#x3D;db90782c22c8cc0b227837ac69fcc5bac1585723054; expires&#x3D;Fri, 01-May-20 06:37:34 GMT; path&#x3D;/; domain&#x3D;.getgeoapi.com; HttpOnly; SameSite&#x3D;Lax; Secure</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Vary</td>
+                                                    <td>Accept-Encoding</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-RapidAPI-Region</td>
+                                                    <td>AWS - eu-central-1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-RapidAPI-Version</td>
+                                                    <td>1.1.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">transfer-encoding</td>
+                                                    <td>chunked</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Connection</td>
+                                                    <td>keep-alive</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-f05368a5-4fa6-40cc-87b9-8d806c5e4b68" class="prettyPrint">{&quot;currencies&quot;:{&quot;AED&quot;:&quot;United Arab Emirates Dirham&quot;,&quot;ALL&quot;:&quot;Albanian Lek&quot;,&quot;AMD&quot;:&quot;Armenian Dram&quot;,&quot;ANG&quot;:&quot;Netherlands Antillean Guilder&quot;,&quot;ARS&quot;:&quot;Argentine Peso&quot;,&quot;AUD&quot;:&quot;Australian Dollar&quot;,&quot;AZN&quot;:&quot;Azerbaijani Manat&quot;,&quot;BDT&quot;:&quot;Bangladeshi Taka&quot;,&quot;BGN&quot;:&quot;Bulgarian Lev&quot;,&quot;BHD&quot;:&quot;Bahraini Dinar&quot;,&quot;BND&quot;:&quot;Brunei Dollar&quot;,&quot;BRL&quot;:&quot;Brazilian Real&quot;,&quot;BYN&quot;:&quot;Belarusian Ruble&quot;,&quot;CAD&quot;:&quot;Canadian Dollar&quot;,&quot;CHF&quot;:&quot;Swiss Franc&quot;,&quot;CLP&quot;:&quot;Chilean Peso&quot;,&quot;CNY&quot;:&quot;Chinese Yuan&quot;,&quot;CZK&quot;:&quot;Czech Koruna&quot;,&quot;DKK&quot;:&quot;Danish Krone&quot;,&quot;DZD&quot;:&quot;Algerian Dinar&quot;,&quot;EGP&quot;:&quot;Egyptian Pound&quot;,&quot;EUR&quot;:&quot;Euro&quot;,&quot;GBP&quot;:&quot;Pound Sterling&quot;,&quot;GEL&quot;:&quot;Georgian Lari&quot;,&quot;GHS&quot;:&quot;Ghanaian Cedi&quot;,&quot;HKD&quot;:&quot;Hong Kong Dollar&quot;,&quot;HRK&quot;:&quot;Croatian Kuna&quot;,&quot;HUF&quot;:&quot;Hungarian Forint&quot;,&quot;IDR&quot;:&quot;Indonesian Rupiah&quot;,&quot;ILS&quot;:&quot;Israeli Shekel&quot;,&quot;INR&quot;:&quot;Indian Rupee&quot;,&quot;IQD&quot;:&quot;Iraqi Dinar&quot;,&quot;IRR&quot;:&quot;Iranian Rial&quot;,&quot;ISK&quot;:&quot;Icelandic Krona&quot;,&quot;JOD&quot;:&quot;Jordanian Dinar&quot;,&quot;JPY&quot;:&quot;Japanese Yen&quot;,&quot;KES&quot;:&quot;Kenyan Shilling&quot;,&quot;KGS&quot;:&quot;Kyrgystani Som&quot;,&quot;KHR&quot;:&quot;Cambodian Riel&quot;,&quot;KRW&quot;:&quot;South Korean Won&quot;,&quot;KWD&quot;:&quot;Kuwaiti Dinar&quot;,&quot;KZT&quot;:&quot;Kazakhstani Tenge&quot;,&quot;LAK&quot;:&quot;Laotian Kip&quot;,&quot;LBP&quot;:&quot;Lebanese Pound&quot;,&quot;LKR&quot;:&quot;Sri Lankan Rupee&quot;,&quot;LYD&quot;:&quot;Libyan Dinar&quot;,&quot;MAD&quot;:&quot;Moroccan Dirham&quot;,&quot;MDL&quot;:&quot;Moldovan Leu&quot;,&quot;MKD&quot;:&quot;Macedonian Denar&quot;,&quot;MMK&quot;:&quot;Myanma Kyat&quot;,&quot;MXN&quot;:&quot;Mexican Peso&quot;,&quot;MYR&quot;:&quot;Malaysian Ringgit&quot;,&quot;NOK&quot;:&quot;Norwegian Krone&quot;,&quot;NPR&quot;:&quot;Nepalese Rupee&quot;,&quot;NZD&quot;:&quot;New Zealand Dollar&quot;,&quot;OMR&quot;:&quot;Omani Rial&quot;,&quot;PHP&quot;:&quot;Philippine Peso&quot;,&quot;PKR&quot;:&quot;Pakistani Rupee&quot;,&quot;PLN&quot;:&quot;Polish Zloty&quot;,&quot;QAR&quot;:&quot;Qatari Rial&quot;,&quot;RON&quot;:&quot;Romanian Leu&quot;,&quot;RSD&quot;:&quot;Serbian Dinar&quot;,&quot;RUB&quot;:&quot;Russian Ruble&quot;,&quot;SAR&quot;:&quot;Saudi Riyal&quot;,&quot;SEK&quot;:&quot;Swedish Krona&quot;,&quot;SGD&quot;:&quot;Singapore Dollar&quot;,&quot;THB&quot;:&quot;Thai Baht&quot;,&quot;TJS&quot;:&quot;Tajikistani Somoni&quot;,&quot;TMT&quot;:&quot;Turkmenistani Manat&quot;,&quot;TND&quot;:&quot;Tunisian Dinar&quot;,&quot;TRY&quot;:&quot;Turkish Lira&quot;,&quot;TWD&quot;:&quot;New Taiwan Dollar&quot;,&quot;UAH&quot;:&quot;Ukrainian Hryvnia&quot;,&quot;USD&quot;:&quot;US Dollar&quot;,&quot;UZS&quot;:&quot;Uzbekistan Som&quot;,&quot;VND&quot;:&quot;Vietnamese Dong&quot;,&quot;ZAR&quot;:&quot;South African Rand&quot;},&quot;status&quot;:&quot;success&quot;}
+        </code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-f05368a5-4fa6-40cc-87b9-8d806c5e4b68">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <div class="table-responsive text-nowrap">
+                                        <table id="myTable-f05368a5-4fa6-40cc-87b9-8d806c5e4b68" class="table table-hover">
+                                        <thead><tr class="text-center"><th>Name</th><th>Passed</th><th>Failed</th><th>Skipped</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Verify Status code is 200</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify Content-Type header is application/json </td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify Server header is RapidAPI-1.1.0 </td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify the response is in json format</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify response body has status flag and its value is success</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify the count of currencies</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <td><strong>Total</strong></td>
+                                                    <td class="text-center">6</td>
+                                                    <td class="text-center">0</td>
+                                                    <td class="text-center">0</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="row d-none">
+                                    <div class="col-sm-12 mb-3">
+                                        <div class="card-deck">
+                                        <div class="card border-danger" style="width: 50rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-uppercase text-white text-center bg-danger">Test Failure</h5>
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                    <thead><tr class="text-nowrap"><th>Test Name</th><th>Assertion Error</th></tr></thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div id="folder-0bd21a05-a883-451e-bd71-c7d1e238ab7e" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-0bd21a05-a883-451e-bd71-c7d1e238ab7e" aria-expanded="false" aria-controls="collapse" id="requests-0bd21a05-a883-451e-bd71-c7d1e238ab7e" class="collapsed text-white z-block">
+                    Iteration: 1 - GetHistoricalCurrencyRate <i class="float-lg-right fa fa-chevron-down"></i>
+                </a>
+                    </div>
+                    <div id="collapse-0bd21a05-a883-451e-bd71-c7d1e238ab7e" class="collapse" aria-labelledby="requests-0bd21a05-a883-451e-bd71-c7d1e238ab7e">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> GET</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://currency-converter5.p.rapidapi.com/currency/historical/2020-03-18?amount&#x3D;10" target="_blank">https://currency-converter5.p.rapidapi.com/currency/historical/2020-03-18?amount&#x3D;10</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 200 - OK</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 301ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 6.68KB</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar  bg-success" style="width: 100%" role="progressbar">
+                                            <h5><strong>100 %</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td>PostmanRuntime/7.22.0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td>*/*</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td>no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td>d999ba97-96b9-437c-b15a-72cb698f5910</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td>currency-converter5.p.rapidapi.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Content-Type</td>
+                                                        <td>multipart/form-data; boundary&#x3D;--------------------------467113937106867680099338</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td>gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Content-Length</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td>keep-alive</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-sm-12 mb-3">
+                                    <div class="card-deck">
+                                        <div class="card border-info" style="width: 50rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-uppercase text-white text-center bg-info">Request Body</h5>
+                                                <div class="dyn-height">
+                                                    <pre><code id="copyReqText-1" class="prettyPrint">{&quot;&quot;:&quot;&quot;}</code></pre>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyReqText-1">Copy to Clipboard</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Age</td>
+                                                    <td>407</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Cache-Control</td>
+                                                    <td>max-age&#x3D;7200</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">CF-Cache-Status</td>
+                                                    <td>HIT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">CF-RAY</td>
+                                                    <td>57d04d64d91eedf3-CDG</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Encoding</td>
+                                                    <td>br</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td>application/json</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td>Wed, 01 Apr 2020 06:37:34 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Expect-CT</td>
+                                                    <td>max-age&#x3D;604800, report-uri&#x3D;&quot;https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct&quot;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td>RapidAPI-1.1.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Set-Cookie</td>
+                                                    <td>__cfduid&#x3D;d80261c776c7a176cf86b98df49c404b71585723054; expires&#x3D;Fri, 01-May-20 06:37:34 GMT; path&#x3D;/; domain&#x3D;.getgeoapi.com; HttpOnly; SameSite&#x3D;Lax; Secure</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Vary</td>
+                                                    <td>Accept-Encoding</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-RapidAPI-Region</td>
+                                                    <td>AWS - eu-central-1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-RapidAPI-Version</td>
+                                                    <td>1.1.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">transfer-encoding</td>
+                                                    <td>chunked</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Connection</td>
+                                                    <td>keep-alive</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-2ddeeb57-fd73-495f-8d97-e889e0f292ac" class="prettyPrint">{&quot;amount&quot;:&quot;10.0000&quot;,&quot;base_currency_code&quot;:&quot;EUR&quot;,&quot;base_currency_name&quot;:&quot;Euro&quot;,&quot;rates&quot;:{&quot;AED&quot;:{&quot;currency_name&quot;:&quot;United Arab Emirates Dirham&quot;,&quot;rate&quot;:&quot;4.0412&quot;,&quot;rate_for_amount&quot;:&quot;40.4121&quot;},&quot;ALL&quot;:{&quot;currency_name&quot;:&quot;Albanian Lek&quot;,&quot;rate&quot;:&quot;122.8526&quot;,&quot;rate_for_amount&quot;:&quot;1228.5264&quot;},&quot;AMD&quot;:{&quot;currency_name&quot;:&quot;Armenian Dram&quot;,&quot;rate&quot;:&quot;538.9227&quot;,&quot;rate_for_amount&quot;:&quot;5389.2265&quot;},&quot;ANG&quot;:{&quot;currency_name&quot;:&quot;Netherlands Antillean Guilder&quot;,&quot;rate&quot;:&quot;1.9706&quot;,&quot;rate_for_amount&quot;:&quot;19.7055&quot;},&quot;ARS&quot;:{&quot;currency_name&quot;:&quot;Argentine Peso&quot;,&quot;rate&quot;:&quot;69.7175&quot;,&quot;rate_for_amount&quot;:&quot;697.1747&quot;},&quot;AUD&quot;:{&quot;currency_name&quot;:&quot;Australian Dollar&quot;,&quot;rate&quot;:&quot;1.8568&quot;,&quot;rate_for_amount&quot;:&quot;18.5680&quot;},&quot;AZN&quot;:{&quot;currency_name&quot;:&quot;Azerbaijani Manat&quot;,&quot;rate&quot;:&quot;1.8754&quot;,&quot;rate_for_amount&quot;:&quot;18.7540&quot;},&quot;BDT&quot;:{&quot;currency_name&quot;:&quot;Bangladeshi Taka&quot;,&quot;rate&quot;:&quot;93.2954&quot;,&quot;rate_for_amount&quot;:&quot;932.9536&quot;},&quot;BGN&quot;:{&quot;currency_name&quot;:&quot;Bulgarian Lev&quot;,&quot;rate&quot;:&quot;1.9558&quot;,&quot;rate_for_amount&quot;:&quot;19.5580&quot;},&quot;BHD&quot;:{&quot;currency_name&quot;:&quot;Bahraini Dinar&quot;,&quot;rate&quot;:&quot;0.4134&quot;,&quot;rate_for_amount&quot;:&quot;4.1343&quot;},&quot;BND&quot;:{&quot;currency_name&quot;:&quot;Brunei Dollar&quot;,&quot;rate&quot;:&quot;1.5762&quot;,&quot;rate_for_amount&quot;:&quot;15.7618&quot;},&quot;BRL&quot;:{&quot;currency_name&quot;:&quot;Brazilian Real&quot;,&quot;rate&quot;:&quot;5.6133&quot;,&quot;rate_for_amount&quot;:&quot;56.1330&quot;},&quot;BYN&quot;:{&quot;currency_name&quot;:&quot;Belarusian Ruble&quot;,&quot;rate&quot;:&quot;2.6310&quot;,&quot;rate_for_amount&quot;:&quot;26.3103&quot;},&quot;CAD&quot;:{&quot;currency_name&quot;:&quot;Canadian Dollar&quot;,&quot;rate&quot;:&quot;1.5749&quot;,&quot;rate_for_amount&quot;:&quot;15.7490&quot;},&quot;CHF&quot;:{&quot;currency_name&quot;:&quot;Swiss Franc&quot;,&quot;rate&quot;:&quot;1.0546&quot;,&quot;rate_for_amount&quot;:&quot;10.5460&quot;},&quot;CLP&quot;:{&quot;currency_name&quot;:&quot;Chilean Peso&quot;,&quot;rate&quot;:&quot;935.8283&quot;,&quot;rate_for_amount&quot;:&quot;9358.2834&quot;},&quot;CNY&quot;:{&quot;currency_name&quot;:&quot;Chinese Yuan&quot;,&quot;rate&quot;:&quot;7.6925&quot;,&quot;rate_for_amount&quot;:&quot;76.9250&quot;},&quot;CZK&quot;:{&quot;currency_name&quot;:&quot;Czech Koruna&quot;,&quot;rate&quot;:&quot;27.1540&quot;,&quot;rate_for_amount&quot;:&quot;271.5400&quot;},&quot;DKK&quot;:{&quot;currency_name&quot;:&quot;Danish Krone&quot;,&quot;rate&quot;:&quot;7.4732&quot;,&quot;rate_for_amount&quot;:&quot;74.7320&quot;},&quot;DZD&quot;:{&quot;currency_name&quot;:&quot;Algerian Dinar&quot;,&quot;rate&quot;:&quot;145.7470&quot;,&quot;rate_for_amount&quot;:&quot;1457.4699&quot;},&quot;EGP&quot;:{&quot;currency_name&quot;:&quot;Egyptian Pound&quot;,&quot;rate&quot;:&quot;17.3613&quot;,&quot;rate_for_amount&quot;:&quot;173.6129&quot;},&quot;EUR&quot;:{&quot;currency_name&quot;:&quot;Euro&quot;,&quot;rate&quot;:&quot;1.0000&quot;,&quot;rate_for_amount&quot;:&quot;10.0000&quot;},&quot;GBP&quot;:{&quot;currency_name&quot;:&quot;Pound Sterling&quot;,&quot;rate&quot;:&quot;0.9219&quot;,&quot;rate_for_amount&quot;:&quot;9.2190&quot;},&quot;GEL&quot;:{&quot;currency_name&quot;:&quot;Georgian Lari&quot;,&quot;rate&quot;:&quot;3.4749&quot;,&quot;rate_for_amount&quot;:&quot;34.7489&quot;},&quot;GHS&quot;:{&quot;currency_name&quot;:&quot;Ghanaian Cedi&quot;,&quot;rate&quot;:&quot;6.6881&quot;,&quot;rate_for_amount&quot;:&quot;66.8813&quot;},&quot;HKD&quot;:{&quot;currency_name&quot;:&quot;Hong Kong Dollar&quot;,&quot;rate&quot;:&quot;8.4917&quot;,&quot;rate_for_amount&quot;:&quot;84.9170&quot;},&quot;HRK&quot;:{&quot;currency_name&quot;:&quot;Croatian Kuna&quot;,&quot;rate&quot;:&quot;7.5935&quot;,&quot;rate_for_amount&quot;:&quot;75.9350&quot;},&quot;HUF&quot;:{&quot;currency_name&quot;:&quot;Hungarian Forint&quot;,&quot;rate&quot;:&quot;351.3800&quot;,&quot;rate_for_amount&quot;:&quot;3513.8000&quot;},&quot;IDR&quot;:{&quot;currency_name&quot;:&quot;Indonesian Rupiah&quot;,&quot;rate&quot;:&quot;16892.5400&quot;,&quot;rate_for_amount&quot;:&quot;168925.4000&quot;},&quot;ILS&quot;:{&quot;currency_name&quot;:&quot;Israeli Shekel&quot;,&quot;rate&quot;:&quot;4.1654&quot;,&quot;rate_for_amount&quot;:&quot;41.6540&quot;},&quot;INR&quot;:{&quot;currency_name&quot;:&quot;Indian Rupee&quot;,&quot;rate&quot;:&quot;81.1355&quot;,&quot;rate_for_amount&quot;:&quot;811.3550&quot;},&quot;IQD&quot;:{&quot;currency_name&quot;:&quot;Iraqi Dinar&quot;,&quot;rate&quot;:&quot;1441.8118&quot;,&quot;rate_for_amount&quot;:&quot;14418.1185&quot;},&quot;IRR&quot;:{&quot;currency_name&quot;:&quot;Iranian Rial&quot;,&quot;rate&quot;:&quot;46885.0000&quot;,&quot;rate_for_amount&quot;:&quot;468850.0000&quot;},&quot;ISK&quot;:{&quot;currency_name&quot;:&quot;Icelandic Krona&quot;,&quot;rate&quot;:&quot;152.7000&quot;,&quot;rate_for_amount&quot;:&quot;1527.0000&quot;},&quot;JOD&quot;:{&quot;currency_name&quot;:&quot;Jordanian Dinar&quot;,&quot;rate&quot;:&quot;0.7794&quot;,&quot;rate_for_amount&quot;:&quot;7.7940&quot;},&quot;JPY&quot;:{&quot;currency_name&quot;:&quot;Japanese Yen&quot;,&quot;rate&quot;:&quot;117.7800&quot;,&quot;rate_for_amount&quot;:&quot;1177.8000&quot;},&quot;KES&quot;:{&quot;currency_name&quot;:&quot;Kenyan Shilling&quot;,&quot;rate&quot;:&quot;114.3564&quot;,&quot;rate_for_amount&quot;:&quot;1143.5636&quot;},&quot;KGS&quot;:{&quot;currency_name&quot;:&quot;Kyrgystani Som&quot;,&quot;rate&quot;:&quot;80.4893&quot;,&quot;rate_for_amount&quot;:&quot;804.8927&quot;},&quot;KHR&quot;:{&quot;currency_name&quot;:&quot;Cambodian Riel&quot;,&quot;rate&quot;:&quot;4530.8898&quot;,&quot;rate_for_amount&quot;:&quot;45308.8981&quot;},&quot;KRW&quot;:{&quot;currency_name&quot;:&quot;South Korean Won&quot;,&quot;rate&quot;:&quot;1377.8000&quot;,&quot;rate_for_amount&quot;:&quot;13778.0000&quot;},&quot;KWD&quot;:{&quot;currency_name&quot;:&quot;Kuwaiti Dinar&quot;,&quot;rate&quot;:&quot;0.3414&quot;,&quot;rate_for_amount&quot;:&quot;3.4137&quot;},&quot;KZT&quot;:{&quot;currency_name&quot;:&quot;Kazakhstani Tenge&quot;,&quot;rate&quot;:&quot;480.8718&quot;,&quot;rate_for_amount&quot;:&quot;4808.7179&quot;},&quot;LAK&quot;:{&quot;currency_name&quot;:&quot;Laotian Kip&quot;,&quot;rate&quot;:&quot;9790.1750&quot;,&quot;rate_for_amount&quot;:&quot;97901.7496&quot;},&quot;LBP&quot;:{&quot;currency_name&quot;:&quot;Lebanese Pound&quot;,&quot;rate&quot;:&quot;1669.9911&quot;,&quot;rate_for_amount&quot;:&quot;16699.9110&quot;},&quot;LKR&quot;:{&quot;currency_name&quot;:&quot;Sri Lankan Rupee&quot;,&quot;rate&quot;:&quot;204.5531&quot;,&quot;rate_for_amount&quot;:&quot;2045.5314&quot;},&quot;LYD&quot;:{&quot;currency_name&quot;:&quot;Libyan Dinar&quot;,&quot;rate&quot;:&quot;1.7108&quot;,&quot;rate_for_amount&quot;:&quot;17.1080&quot;},&quot;MAD&quot;:{&quot;currency_name&quot;:&quot;Moroccan Dirham&quot;,&quot;rate&quot;:&quot;10.6094&quot;,&quot;rate_for_amount&quot;:&quot;106.0937&quot;},&quot;MDL&quot;:{&quot;currency_name&quot;:&quot;Moldovan Leu&quot;,&quot;rate&quot;:&quot;19.5079&quot;,&quot;rate_for_amount&quot;:&quot;195.0785&quot;},&quot;MKD&quot;:{&quot;currency_name&quot;:&quot;Macedonian Denar&quot;,&quot;rate&quot;:&quot;61.5659&quot;,&quot;rate_for_amount&quot;:&quot;615.6589&quot;},&quot;MMK&quot;:{&quot;currency_name&quot;:&quot;Myanma Kyat&quot;,&quot;rate&quot;:&quot;1572.4000&quot;,&quot;rate_for_amount&quot;:&quot;15724.0000&quot;},&quot;MXN&quot;:{&quot;currency_name&quot;:&quot;Mexican Peso&quot;,&quot;rate&quot;:&quot;26.2014&quot;,&quot;rate_for_amount&quot;:&quot;262.0140&quot;},&quot;MYR&quot;:{&quot;currency_name&quot;:&quot;Malaysian Ringgit&quot;,&quot;rate&quot;:&quot;4.7793&quot;,&quot;rate_for_amount&quot;:&quot;47.7930&quot;},&quot;NOK&quot;:{&quot;currency_name&quot;:&quot;Norwegian Krone&quot;,&quot;rate&quot;:&quot;11.7010&quot;,&quot;rate_for_amount&quot;:&quot;117.0100&quot;},&quot;NPR&quot;:{&quot;currency_name&quot;:&quot;Nepalese Rupee&quot;,&quot;rate&quot;:&quot;130.6414&quot;,&quot;rate_for_amount&quot;:&quot;1306.4141&quot;},&quot;NZD&quot;:{&quot;currency_name&quot;:&quot;New Zealand Dollar&quot;,&quot;rate&quot;:&quot;1.8727&quot;,&quot;rate_for_amount&quot;:&quot;18.7270&quot;},&quot;OMR&quot;:{&quot;currency_name&quot;:&quot;Omani Rial&quot;,&quot;rate&quot;:&quot;0.4232&quot;,&quot;rate_for_amount&quot;:&quot;4.2323&quot;},&quot;PHP&quot;:{&quot;currency_name&quot;:&quot;Philippine Peso&quot;,&quot;rate&quot;:&quot;56.4410&quot;,&quot;rate_for_amount&quot;:&quot;564.4100&quot;},&quot;PKR&quot;:{&quot;currency_name&quot;:&quot;Pakistani Rupee&quot;,&quot;rate&quot;:&quot;174.7888&quot;,&quot;rate_for_amount&quot;:&quot;1747.8880&quot;},&quot;PLN&quot;:{&quot;currency_name&quot;:&quot;Polish Zloty&quot;,&quot;rate&quot;:&quot;4.5010&quot;,&quot;rate_for_amount&quot;:&quot;45.0100&quot;},&quot;QAR&quot;:{&quot;currency_name&quot;:&quot;Qatari Rial&quot;,&quot;rate&quot;:&quot;4.0029&quot;,&quot;rate_for_amount&quot;:&quot;40.0292&quot;},&quot;RON&quot;:{&quot;currency_name&quot;:&quot;Romanian Leu&quot;,&quot;rate&quot;:&quot;4.8450&quot;,&quot;rate_for_amount&quot;:&quot;48.4500&quot;},&quot;RSD&quot;:{&quot;currency_name&quot;:&quot;Serbian Dinar&quot;,&quot;rate&quot;:&quot;117.5680&quot;,&quot;rate_for_amount&quot;:&quot;1175.6796&quot;},&quot;RUB&quot;:{&quot;currency_name&quot;:&quot;Russian Ruble&quot;,&quot;rate&quot;:&quot;87.0959&quot;,&quot;rate_for_amount&quot;:&quot;870.9590&quot;},&quot;SAR&quot;:{&quot;currency_name&quot;:&quot;Saudi Riyal&quot;,&quot;rate&quot;:&quot;4.1454&quot;,&quot;rate_for_amount&quot;:&quot;41.4545&quot;},&quot;SEK&quot;:{&quot;currency_name&quot;:&quot;Swedish Krona&quot;,&quot;rate&quot;:&quot;11.0223&quot;,&quot;rate_for_amount&quot;:&quot;110.2230&quot;},&quot;SGD&quot;:{&quot;currency_name&quot;:&quot;Singapore Dollar&quot;,&quot;rate&quot;:&quot;1.5760&quot;,&quot;rate_for_amount&quot;:&quot;15.7600&quot;},&quot;THB&quot;:{&quot;currency_name&quot;:&quot;Thai Baht&quot;,&quot;rate&quot;:&quot;35.4480&quot;,&quot;rate_for_amount&quot;:&quot;354.4800&quot;},&quot;TJS&quot;:{&quot;currency_name&quot;:&quot;Tajikistani Somoni&quot;,&quot;rate&quot;:&quot;10.7350&quot;,&quot;rate_for_amount&quot;:&quot;107.3497&quot;},&quot;TMT&quot;:{&quot;currency_name&quot;:&quot;Turkmenistani Manat&quot;,&quot;rate&quot;:&quot;3.8612&quot;,&quot;rate_for_amount&quot;:&quot;38.6123&quot;},&quot;TND&quot;:{&quot;currency_name&quot;:&quot;Tunisian Dinar&quot;,&quot;rate&quot;:&quot;3.1565&quot;,&quot;rate_for_amount&quot;:&quot;31.5648&quot;},&quot;TRY&quot;:{&quot;currency_name&quot;:&quot;Turkish Lira&quot;,&quot;rate&quot;:&quot;7.0491&quot;,&quot;rate_for_amount&quot;:&quot;70.4910&quot;},&quot;TWD&quot;:{&quot;currency_name&quot;:&quot;New Taiwan Dollar&quot;,&quot;rate&quot;:&quot;33.3108&quot;,&quot;rate_for_amount&quot;:&quot;333.1083&quot;},&quot;UAH&quot;:{&quot;currency_name&quot;:&quot;Ukrainian Hryvnia&quot;,&quot;rate&quot;:&quot;30.0298&quot;,&quot;rate_for_amount&quot;:&quot;300.2976&quot;},&quot;USD&quot;:{&quot;currency_name&quot;:&quot;US Dollar&quot;,&quot;rate&quot;:&quot;1.0934&quot;,&quot;rate_for_amount&quot;:&quot;10.9340&quot;},&quot;UZS&quot;:{&quot;currency_name&quot;:&quot;Uzbekistan Som&quot;,&quot;rate&quot;:&quot;10535.9551&quot;,&quot;rate_for_amount&quot;:&quot;105359.5506&quot;},&quot;VND&quot;:{&quot;currency_name&quot;:&quot;Vietnamese Dong&quot;,&quot;rate&quot;:&quot;25571.2218&quot;,&quot;rate_for_amount&quot;:&quot;255712.2180&quot;},&quot;ZAR&quot;:{&quot;currency_name&quot;:&quot;South African Rand&quot;,&quot;rate&quot;:&quot;18.5624&quot;,&quot;rate_for_amount&quot;:&quot;185.6240&quot;}},&quot;status&quot;:&quot;success&quot;,&quot;updated_date&quot;:&quot;2020-03-18&quot;}
+        </code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-2ddeeb57-fd73-495f-8d97-e889e0f292ac">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <div class="table-responsive text-nowrap">
+                                        <table id="myTable-2ddeeb57-fd73-495f-8d97-e889e0f292ac" class="table table-hover">
+                                        <thead><tr class="text-center"><th>Name</th><th>Passed</th><th>Failed</th><th>Skipped</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Verify Status code is 200</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify Content-Type header is application/json </td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify Server header is RapidAPI-1.1.0 </td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify the response is in json format</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify response body has status flag and its value is success</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify that the response contains amount key </td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify that the response contains base_currency_code key</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify that the response contains base_currency_name key</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify the count of currencies</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify that response contains updated_date key</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <td><strong>Total</strong></td>
+                                                    <td class="text-center">10</td>
+                                                    <td class="text-center">0</td>
+                                                    <td class="text-center">0</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="row d-none">
+                                    <div class="col-sm-12 mb-3">
+                                        <div class="card-deck">
+                                        <div class="card border-danger" style="width: 50rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-uppercase text-white text-center bg-danger">Test Failure</h5>
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                    <thead><tr class="text-nowrap"><th>Test Name</th><th>Assertion Error</th></tr></thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div id="folder-248ea770-b9f0-49be-81dc-cfdc0ab92c32" class="card-deck iteration-0">
+            <div class="row iteration-0">
+                <div class="col-sm-12 mb-3 iteration-0">
+                <div class="card iteration-0">
+                    <div class="card-header  bg-success iteration-0">
+                        <a data-toggle="collapse" href="#" data-target="#collapse-248ea770-b9f0-49be-81dc-cfdc0ab92c32" aria-expanded="false" aria-controls="collapse" id="requests-248ea770-b9f0-49be-81dc-cfdc0ab92c32" class="collapsed text-white z-block">
+                    Iteration: 1 - ConvertCurrency <i class="float-lg-right fa fa-chevron-down"></i>
+                </a>
+                    </div>
+                    <div id="collapse-248ea770-b9f0-49be-81dc-cfdc0ab92c32" class="collapse" aria-labelledby="requests-248ea770-b9f0-49be-81dc-cfdc0ab92c32">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Request Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request Method:</strong> <span class="badge-outline-success badge badge-success"> GET</span><br>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Request URL:</strong> <a href="https://currency-converter5.p.rapidapi.com/currency/convert?amount&#x3D;10" target="_blank">https://currency-converter5.p.rapidapi.com/currency/convert?amount&#x3D;10</a><br>
+                                    </div>
+                                </div>
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Information</h5>
+                                    <span><i class="fas fa-info-circle"></i></span><strong> Response Code:</strong> <span class="float-right badge-outline badge badge-success"> 200 - OK</span><br>
+                                    <span><i class="fas fa-stopwatch"></i></span><strong> Mean time per request:</strong> <span class="float-right badge-outline badge badge-success"> 248ms</span><br>
+                                    <span><i class="fas fa-database"></i></span><strong> Mean size per request:</strong> <span class="float-right badge-outline badge badge-success"> 6.68KB</span><br>
+                                    <hr>
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Test Pass Percentage</h5>
+                                    <div>
+                                        <div class="progress" style="height: 40px;">
+                                            <div class="progress-bar  bg-success" style="width: 100%" role="progressbar">
+                                            <h5><strong>100 %</strong></h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="card-deck">
+                                <div class="card border-info" style="width: 50rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-uppercase text-white text-center bg-info">Request Headers</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                            <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-nowrap">User-Agent</td>
+                                                        <td>PostmanRuntime/7.22.0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept</td>
+                                                        <td>*/*</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Cache-Control</td>
+                                                        <td>no-cache</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Postman-Token</td>
+                                                        <td>d5992368-183c-4c38-94cb-fb87930a34ef</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Host</td>
+                                                        <td>currency-converter5.p.rapidapi.com</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Accept-Encoding</td>
+                                                        <td>gzip, deflate, br</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-nowrap">Connection</td>
+                                                        <td>keep-alive</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Headers</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                        <thead class="thead-light text-center"><tr><th>Header Name</th><th>Header Value</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap">Age</td>
+                                                    <td>2393</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Cache-Control</td>
+                                                    <td>max-age&#x3D;7200</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">CF-Cache-Status</td>
+                                                    <td>HIT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">CF-RAY</td>
+                                                    <td>57d04d679827cd7b-CDG</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Encoding</td>
+                                                    <td>br</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Content-Type</td>
+                                                    <td>application/json</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Date</td>
+                                                    <td>Wed, 01 Apr 2020 06:37:35 GMT</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Expect-CT</td>
+                                                    <td>max-age&#x3D;604800, report-uri&#x3D;&quot;https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct&quot;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Server</td>
+                                                    <td>RapidAPI-1.1.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Set-Cookie</td>
+                                                    <td>__cfduid&#x3D;d9f909ba02297183e61ae7f141b1df9301585723055; expires&#x3D;Fri, 01-May-20 06:37:35 GMT; path&#x3D;/; domain&#x3D;.getgeoapi.com; HttpOnly; SameSite&#x3D;Lax; Secure</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Vary</td>
+                                                    <td>Accept-Encoding</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-RapidAPI-Region</td>
+                                                    <td>AWS - eu-central-1</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">X-RapidAPI-Version</td>
+                                                    <td>1.1.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">transfer-encoding</td>
+                                                    <td>chunked</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-nowrap">Connection</td>
+                                                    <td>keep-alive</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-sm-12 mb-3">
+                            <div class="card-deck">
+                            <div class="card border-info" style="width: 50rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title text-uppercase text-white text-center bg-info">Response Body</h5>
+                                        <div class="dyn-height">
+                                                <pre><code id="copyText-7cf3d58d-fe2a-40b1-8a6b-246a05c1eb71" class="prettyPrint">{&quot;amount&quot;:&quot;10.0000&quot;,&quot;base_currency_code&quot;:&quot;EUR&quot;,&quot;base_currency_name&quot;:&quot;Euro&quot;,&quot;rates&quot;:{&quot;AED&quot;:{&quot;currency_name&quot;:&quot;United Arab Emirates Dirham&quot;,&quot;rate&quot;:&quot;4.0296&quot;,&quot;rate_for_amount&quot;:&quot;40.2956&quot;},&quot;ALL&quot;:{&quot;currency_name&quot;:&quot;Albanian Lek&quot;,&quot;rate&quot;:&quot;129.3456&quot;,&quot;rate_for_amount&quot;:&quot;1293.4556&quot;},&quot;AMD&quot;:{&quot;currency_name&quot;:&quot;Armenian Dram&quot;,&quot;rate&quot;:&quot;550.9771&quot;,&quot;rate_for_amount&quot;:&quot;5509.7709&quot;},&quot;ANG&quot;:{&quot;currency_name&quot;:&quot;Netherlands Antillean Guilder&quot;,&quot;rate&quot;:&quot;1.9773&quot;,&quot;rate_for_amount&quot;:&quot;19.7727&quot;},&quot;ARS&quot;:{&quot;currency_name&quot;:&quot;Argentine Peso&quot;,&quot;rate&quot;:&quot;70.9735&quot;,&quot;rate_for_amount&quot;:&quot;709.7348&quot;},&quot;AUD&quot;:{&quot;currency_name&quot;:&quot;Australian Dollar&quot;,&quot;rate&quot;:&quot;1.7967&quot;,&quot;rate_for_amount&quot;:&quot;17.9670&quot;},&quot;AZN&quot;:{&quot;currency_name&quot;:&quot;Azerbaijani Manat&quot;,&quot;rate&quot;:&quot;1.8737&quot;,&quot;rate_for_amount&quot;:&quot;18.7370&quot;},&quot;BDT&quot;:{&quot;currency_name&quot;:&quot;Bangladeshi Taka&quot;,&quot;rate&quot;:&quot;93.2830&quot;,&quot;rate_for_amount&quot;:&quot;932.8299&quot;},&quot;BGN&quot;:{&quot;currency_name&quot;:&quot;Bulgarian Lev&quot;,&quot;rate&quot;:&quot;1.9558&quot;,&quot;rate_for_amount&quot;:&quot;19.5580&quot;},&quot;BHD&quot;:{&quot;currency_name&quot;:&quot;Bahraini Dinar&quot;,&quot;rate&quot;:&quot;0.4148&quot;,&quot;rate_for_amount&quot;:&quot;4.1484&quot;},&quot;BND&quot;:{&quot;currency_name&quot;:&quot;Brunei Dollar&quot;,&quot;rate&quot;:&quot;1.5666&quot;,&quot;rate_for_amount&quot;:&quot;15.6658&quot;},&quot;BRL&quot;:{&quot;currency_name&quot;:&quot;Brazilian Real&quot;,&quot;rate&quot;:&quot;5.7001&quot;,&quot;rate_for_amount&quot;:&quot;57.0010&quot;},&quot;BYN&quot;:{&quot;currency_name&quot;:&quot;Belarusian Ruble&quot;,&quot;rate&quot;:&quot;2.8681&quot;,&quot;rate_for_amount&quot;:&quot;28.6805&quot;},&quot;CAD&quot;:{&quot;currency_name&quot;:&quot;Canadian Dollar&quot;,&quot;rate&quot;:&quot;1.5617&quot;,&quot;rate_for_amount&quot;:&quot;15.6170&quot;},&quot;CHF&quot;:{&quot;currency_name&quot;:&quot;Swiss Franc&quot;,&quot;rate&quot;:&quot;1.0585&quot;,&quot;rate_for_amount&quot;:&quot;10.5850&quot;},&quot;CLP&quot;:{&quot;currency_name&quot;:&quot;Chilean Peso&quot;,&quot;rate&quot;:&quot;938.7275&quot;,&quot;rate_for_amount&quot;:&quot;9387.2745&quot;},&quot;CNY&quot;:{&quot;currency_name&quot;:&quot;Chinese Yuan&quot;,&quot;rate&quot;:&quot;7.7784&quot;,&quot;rate_for_amount&quot;:&quot;77.7840&quot;},&quot;CZK&quot;:{&quot;currency_name&quot;:&quot;Czech Koruna&quot;,&quot;rate&quot;:&quot;27.3120&quot;,&quot;rate_for_amount&quot;:&quot;273.1200&quot;},&quot;DKK&quot;:{&quot;currency_name&quot;:&quot;Danish Krone&quot;,&quot;rate&quot;:&quot;7.4674&quot;,&quot;rate_for_amount&quot;:&quot;74.6740&quot;},&quot;DZD&quot;:{&quot;currency_name&quot;:&quot;Algerian Dinar&quot;,&quot;rate&quot;:&quot;136.7027&quot;,&quot;rate_for_amount&quot;:&quot;1367.0266&quot;},&quot;EGP&quot;:{&quot;currency_name&quot;:&quot;Egyptian Pound&quot;,&quot;rate&quot;:&quot;17.2768&quot;,&quot;rate_for_amount&quot;:&quot;172.7676&quot;},&quot;EUR&quot;:{&quot;currency_name&quot;:&quot;Euro&quot;,&quot;rate&quot;:&quot;1.0000&quot;,&quot;rate_for_amount&quot;:&quot;10.0000&quot;},&quot;GBP&quot;:{&quot;currency_name&quot;:&quot;Pound Sterling&quot;,&quot;rate&quot;:&quot;0.8864&quot;,&quot;rate_for_amount&quot;:&quot;8.8643&quot;},&quot;GEL&quot;:{&quot;currency_name&quot;:&quot;Georgian Lari&quot;,&quot;rate&quot;:&quot;3.6235&quot;,&quot;rate_for_amount&quot;:&quot;36.2348&quot;},&quot;GHS&quot;:{&quot;currency_name&quot;:&quot;Ghanaian Cedi&quot;,&quot;rate&quot;:&quot;6.3187&quot;,&quot;rate_for_amount&quot;:&quot;63.1869&quot;},&quot;HKD&quot;:{&quot;currency_name&quot;:&quot;Hong Kong Dollar&quot;,&quot;rate&quot;:&quot;8.4945&quot;,&quot;rate_for_amount&quot;:&quot;84.9450&quot;},&quot;HRK&quot;:{&quot;currency_name&quot;:&quot;Croatian Kuna&quot;,&quot;rate&quot;:&quot;7.6255&quot;,&quot;rate_for_amount&quot;:&quot;76.2550&quot;},&quot;HUF&quot;:{&quot;currency_name&quot;:&quot;Hungarian Forint&quot;,&quot;rate&quot;:&quot;360.0200&quot;,&quot;rate_for_amount&quot;:&quot;3600.2000&quot;},&quot;IDR&quot;:{&quot;currency_name&quot;:&quot;Indonesian Rupiah&quot;,&quot;rate&quot;:&quot;17869.2400&quot;,&quot;rate_for_amount&quot;:&quot;178692.4000&quot;},&quot;ILS&quot;:{&quot;currency_name&quot;:&quot;Israeli Shekel&quot;,&quot;rate&quot;:&quot;3.9018&quot;,&quot;rate_for_amount&quot;:&quot;39.0180&quot;},&quot;INR&quot;:{&quot;currency_name&quot;:&quot;Indian Rupee&quot;,&quot;rate&quot;:&quot;82.8985&quot;,&quot;rate_for_amount&quot;:&quot;828.9850&quot;},&quot;IQD&quot;:{&quot;currency_name&quot;:&quot;Iraqi Dinar&quot;,&quot;rate&quot;:&quot;1303.1441&quot;,&quot;rate_for_amount&quot;:&quot;13031.4411&quot;},&quot;IRR&quot;:{&quot;currency_name&quot;:&quot;Iranian Rial&quot;,&quot;rate&quot;:&quot;46842.5000&quot;,&quot;rate_for_amount&quot;:&quot;468425.0000&quot;},&quot;ISK&quot;:{&quot;currency_name&quot;:&quot;Icelandic Krona&quot;,&quot;rate&quot;:&quot;155.6000&quot;,&quot;rate_for_amount&quot;:&quot;1556.0000&quot;},&quot;JOD&quot;:{&quot;currency_name&quot;:&quot;Jordanian Dinar&quot;,&quot;rate&quot;:&quot;0.7821&quot;,&quot;rate_for_amount&quot;:&quot;7.8206&quot;},&quot;JPY&quot;:{&quot;currency_name&quot;:&quot;Japanese Yen&quot;,&quot;rate&quot;:&quot;118.9000&quot;,&quot;rate_for_amount&quot;:&quot;1189.0000&quot;},&quot;KES&quot;:{&quot;currency_name&quot;:&quot;Kenyan Shilling&quot;,&quot;rate&quot;:&quot;115.4159&quot;,&quot;rate_for_amount&quot;:&quot;1154.1591&quot;},&quot;KGS&quot;:{&quot;currency_name&quot;:&quot;Kyrgystani Som&quot;,&quot;rate&quot;:&quot;89.2238&quot;,&quot;rate_for_amount&quot;:&quot;892.2381&quot;},&quot;KHR&quot;:{&quot;currency_name&quot;:&quot;Cambodian Riel&quot;,&quot;rate&quot;:&quot;4460.6872&quot;,&quot;rate_for_amount&quot;:&quot;44606.8725&quot;},&quot;KRW&quot;:{&quot;currency_name&quot;:&quot;South Korean Won&quot;,&quot;rate&quot;:&quot;1341.0300&quot;,&quot;rate_for_amount&quot;:&quot;13410.3000&quot;},&quot;KWD&quot;:{&quot;currency_name&quot;:&quot;Kuwaiti Dinar&quot;,&quot;rate&quot;:&quot;0.3469&quot;,&quot;rate_for_amount&quot;:&quot;3.4689&quot;},&quot;KZT&quot;:{&quot;currency_name&quot;:&quot;Kazakhstani Tenge&quot;,&quot;rate&quot;:&quot;493.0789&quot;,&quot;rate_for_amount&quot;:&quot;4930.7895&quot;},&quot;LAK&quot;:{&quot;currency_name&quot;:&quot;Laotian Kip&quot;,&quot;rate&quot;:&quot;9828.6814&quot;,&quot;rate_for_amount&quot;:&quot;98286.8142&quot;},&quot;LBP&quot;:{&quot;currency_name&quot;:&quot;Lebanese Pound&quot;,&quot;rate&quot;:&quot;1674.4415&quot;,&quot;rate_for_amount&quot;:&quot;16744.4147&quot;},&quot;LKR&quot;:{&quot;currency_name&quot;:&quot;Sri Lankan Rupee&quot;,&quot;rate&quot;:&quot;207.8229&quot;,&quot;rate_for_amount&quot;:&quot;2078.2287&quot;},&quot;LYD&quot;:{&quot;currency_name&quot;:&quot;Libyan Dinar&quot;,&quot;rate&quot;:&quot;1.5475&quot;,&quot;rate_for_amount&quot;:&quot;15.4748&quot;},&quot;MAD&quot;:{&quot;currency_name&quot;:&quot;Moroccan Dirham&quot;,&quot;rate&quot;:&quot;11.0874&quot;,&quot;rate_for_amount&quot;:&quot;110.8742&quot;},&quot;MDL&quot;:{&quot;currency_name&quot;:&quot;Moldovan Leu&quot;,&quot;rate&quot;:&quot;20.1142&quot;,&quot;rate_for_amount&quot;:&quot;201.1421&quot;},&quot;MKD&quot;:{&quot;currency_name&quot;:&quot;Macedonian Denar&quot;,&quot;rate&quot;:&quot;61.7041&quot;,&quot;rate_for_amount&quot;:&quot;617.0412&quot;},&quot;MMK&quot;:{&quot;currency_name&quot;:&quot;Myanma Kyat&quot;,&quot;rate&quot;:&quot;1531.8000&quot;,&quot;rate_for_amount&quot;:&quot;15318.0000&quot;},&quot;MXN&quot;:{&quot;currency_name&quot;:&quot;Mexican Peso&quot;,&quot;rate&quot;:&quot;26.1772&quot;,&quot;rate_for_amount&quot;:&quot;261.7720&quot;},&quot;MYR&quot;:{&quot;currency_name&quot;:&quot;Malaysian Ringgit&quot;,&quot;rate&quot;:&quot;4.7330&quot;,&quot;rate_for_amount&quot;:&quot;47.3300&quot;},&quot;NOK&quot;:{&quot;currency_name&quot;:&quot;Norwegian Krone&quot;,&quot;rate&quot;:&quot;11.5100&quot;,&quot;rate_for_amount&quot;:&quot;115.1000&quot;},&quot;NPR&quot;:{&quot;currency_name&quot;:&quot;Nepalese Rupee&quot;,&quot;rate&quot;:&quot;132.6463&quot;,&quot;rate_for_amount&quot;:&quot;1326.4635&quot;},&quot;NZD&quot;:{&quot;currency_name&quot;:&quot;New Zealand Dollar&quot;,&quot;rate&quot;:&quot;1.8417&quot;,&quot;rate_for_amount&quot;:&quot;18.4170&quot;},&quot;OMR&quot;:{&quot;currency_name&quot;:&quot;Omani Rial&quot;,&quot;rate&quot;:&quot;0.4248&quot;,&quot;rate_for_amount&quot;:&quot;4.2484&quot;},&quot;PHP&quot;:{&quot;currency_name&quot;:&quot;Philippine Peso&quot;,&quot;rate&quot;:&quot;55.8650&quot;,&quot;rate_for_amount&quot;:&quot;558.6500&quot;},&quot;PKR&quot;:{&quot;currency_name&quot;:&quot;Pakistani Rupee&quot;,&quot;rate&quot;:&quot;182.9233&quot;,&quot;rate_for_amount&quot;:&quot;1829.2333&quot;},&quot;PLN&quot;:{&quot;currency_name&quot;:&quot;Polish Zloty&quot;,&quot;rate&quot;:&quot;4.5506&quot;,&quot;rate_for_amount&quot;:&quot;45.5060&quot;},&quot;QAR&quot;:{&quot;currency_name&quot;:&quot;Qatari Rial&quot;,&quot;rate&quot;:&quot;4.0168&quot;,&quot;rate_for_amount&quot;:&quot;40.1677&quot;},&quot;RON&quot;:{&quot;currency_name&quot;:&quot;Romanian Leu&quot;,&quot;rate&quot;:&quot;4.8283&quot;,&quot;rate_for_amount&quot;:&quot;48.2830&quot;},&quot;RSD&quot;:{&quot;currency_name&quot;:&quot;Serbian Dinar&quot;,&quot;rate&quot;:&quot;117.4063&quot;,&quot;rate_for_amount&quot;:&quot;1174.0633&quot;},&quot;RUB&quot;:{&quot;currency_name&quot;:&quot;Russian Ruble&quot;,&quot;rate&quot;:&quot;85.9486&quot;,&quot;rate_for_amount&quot;:&quot;859.4860&quot;},&quot;SAR&quot;:{&quot;currency_name&quot;:&quot;Saudi Riyal&quot;,&quot;rate&quot;:&quot;4.1472&quot;,&quot;rate_for_amount&quot;:&quot;41.4719&quot;},&quot;SEK&quot;:{&quot;currency_name&quot;:&quot;Swedish Krona&quot;,&quot;rate&quot;:&quot;11.0613&quot;,&quot;rate_for_amount&quot;:&quot;110.6130&quot;},&quot;SGD&quot;:{&quot;currency_name&quot;:&quot;Singapore Dollar&quot;,&quot;rate&quot;:&quot;1.5633&quot;,&quot;rate_for_amount&quot;:&quot;15.6330&quot;},&quot;THB&quot;:{&quot;currency_name&quot;:&quot;Thai Baht&quot;,&quot;rate&quot;:&quot;35.9250&quot;,&quot;rate_for_amount&quot;:&quot;359.2500&quot;},&quot;TJS&quot;:{&quot;currency_name&quot;:&quot;Tajikistani Somoni&quot;,&quot;rate&quot;:&quot;11.2400&quot;,&quot;rate_for_amount&quot;:&quot;112.3995&quot;},&quot;TMT&quot;:{&quot;currency_name&quot;:&quot;Turkmenistani Manat&quot;,&quot;rate&quot;:&quot;3.8577&quot;,&quot;rate_for_amount&quot;:&quot;38.5773&quot;},&quot;TND&quot;:{&quot;currency_name&quot;:&quot;Tunisian Dinar&quot;,&quot;rate&quot;:&quot;3.1545&quot;,&quot;rate_for_amount&quot;:&quot;31.5445&quot;},&quot;TRY&quot;:{&quot;currency_name&quot;:&quot;Turkish Lira&quot;,&quot;rate&quot;:&quot;7.2063&quot;,&quot;rate_for_amount&quot;:&quot;72.0630&quot;},&quot;TWD&quot;:{&quot;currency_name&quot;:&quot;New Taiwan Dollar&quot;,&quot;rate&quot;:&quot;33.3399&quot;,&quot;rate_for_amount&quot;:&quot;333.3986&quot;},&quot;UAH&quot;:{&quot;currency_name&quot;:&quot;Ukrainian Hryvnia&quot;,&quot;rate&quot;:&quot;30.3675&quot;,&quot;rate_for_amount&quot;:&quot;303.6753&quot;},&quot;USD&quot;:{&quot;currency_name&quot;:&quot;US Dollar&quot;,&quot;rate&quot;:&quot;1.0956&quot;,&quot;rate_for_amount&quot;:&quot;10.9560&quot;},&quot;UZS&quot;:{&quot;currency_name&quot;:&quot;Uzbekistan Som&quot;,&quot;rate&quot;:&quot;10526.4045&quot;,&quot;rate_for_amount&quot;:&quot;105264.0449&quot;},&quot;VND&quot;:{&quot;currency_name&quot;:&quot;Vietnamese Dong&quot;,&quot;rate&quot;:&quot;25935.0185&quot;,&quot;rate_for_amount&quot;:&quot;259350.1854&quot;},&quot;ZAR&quot;:{&quot;currency_name&quot;:&quot;South African Rand&quot;,&quot;rate&quot;:&quot;19.6095&quot;,&quot;rate_for_amount&quot;:&quot;196.0950&quot;}},&quot;status&quot;:&quot;success&quot;,&quot;updated_date&quot;:&quot;2020-04-01&quot;}
+        </code></pre>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-outline-secondary btn-sm copyButton" type="button" data-clipboard-action="copy" data-clipboard-target="#copyText-7cf3d58d-fe2a-40b1-8a6b-246a05c1eb71">Copy to Clipboard</button>
+                                        </div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="card border-info">
+                                <div class="card-body">
+                                <h5 class="card-title text-uppercase text-white text-center bg-info">Test Information</h5>
+                                    <div class="table-responsive text-nowrap">
+                                        <table id="myTable-7cf3d58d-fe2a-40b1-8a6b-246a05c1eb71" class="table table-hover">
+                                        <thead><tr class="text-center"><th>Name</th><th>Passed</th><th>Failed</th><th>Skipped</th></tr></thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Verify Status code is 200</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify Content-Type header is application/json </td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify Server header is RapidAPI-1.1.0 </td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify the response is in json format</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify response body has status flag and its value is success</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify that the response contains amount key </td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify that the response contains base_currency_code key</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify that the response contains base_currency_name key</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify the count of currencies</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Verify that response contains updated_date key</td>
+                                                    <td class="text-center bg-success">1</td>
+                                                    <td class="text-center ">0</td>
+                                                    <td class="text-center ">0</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="bg-light">
+                                                    <td><strong>Total</strong></td>
+                                                    <td class="text-center">10</td>
+                                                    <td class="text-center">0</td>
+                                                    <td class="text-center">0</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="row d-none">
+                                    <div class="col-sm-12 mb-3">
+                                        <div class="card-deck">
+                                        <div class="card border-danger" style="width: 50rem;">
+                                            <div class="card-body">
+                                                <h5 class="card-title text-uppercase text-white text-center bg-danger">Test Failure</h5>
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                    <thead><tr class="text-nowrap"><th>Test Name</th><th>Assertion Error</th></tr></thead>
+                                                        <tbody>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</body>
+</html>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/dt-1.10.18/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/1.7.1/remarkable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>
+$(document).ready( function () {
+    $('#myTable-f05368a5-4fa6-40cc-87b9-8d806c5e4b68').DataTable({
+        "retrieve": true,
+        "paging": false,
+        "info": false
+    });
+});
+$(document).ready( function () {
+    $('#myTable-2ddeeb57-fd73-495f-8d97-e889e0f292ac').DataTable({
+        "retrieve": true,
+        "paging": false,
+        "info": false
+    });
+});
+$(document).ready( function () {
+    $('#myTable-7cf3d58d-fe2a-40b1-8a6b-246a05c1eb71').DataTable({
+        "retrieve": true,
+        "paging": false,
+        "info": false
+    });
+});
+</script>
+
+<script>
+$(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip({
+        trigger : 'hover'
+    })
+})
+</script>
+
+<script>
+$('#openAll').on('click', function(e) {
+    $('#folder-e04e0dd1-dac0-4042-b6eb-a315739fadc2-iteration-0').removeClass('collapsed')
+    $('#folder-collapse-e04e0dd1-dac0-4042-b6eb-a315739fadc2-iteration-0').addClass('show')
+})
+</script>
+
+<script>
+$('#closeAll').on('click', function(e) {
+    $('#folder-e04e0dd1-dac0-4042-b6eb-a315739fadc2-iteration-0').addClass('collapsed')
+    $('#folder-collapse-e04e0dd1-dac0-4042-b6eb-a315739fadc2-iteration-0').removeClass('show')
+})
+</script>
+
+<script>
+$('#openAllRequests').on('click', function(e) {
+    $('#requests-f75d8593-2aa7-4306-a4d7-081da49cdd79').removeClass('collapsed')
+    $('#collapse-f75d8593-2aa7-4306-a4d7-081da49cdd79').removeClass('collapsed')
+    $('#requests-f75d8593-2aa7-4306-a4d7-081da49cdd79').addClass('show')
+    $('#collapse-f75d8593-2aa7-4306-a4d7-081da49cdd79').addClass('show')
+    $('#requests-0bd21a05-a883-451e-bd71-c7d1e238ab7e').removeClass('collapsed')
+    $('#collapse-0bd21a05-a883-451e-bd71-c7d1e238ab7e').removeClass('collapsed')
+    $('#requests-0bd21a05-a883-451e-bd71-c7d1e238ab7e').addClass('show')
+    $('#collapse-0bd21a05-a883-451e-bd71-c7d1e238ab7e').addClass('show')
+    $('#requests-248ea770-b9f0-49be-81dc-cfdc0ab92c32').removeClass('collapsed')
+    $('#collapse-248ea770-b9f0-49be-81dc-cfdc0ab92c32').removeClass('collapsed')
+    $('#requests-248ea770-b9f0-49be-81dc-cfdc0ab92c32').addClass('show')
+    $('#collapse-248ea770-b9f0-49be-81dc-cfdc0ab92c32').addClass('show')
+})
+</script>
+
+<script>
+$('#closeAllRequests').on('click', function(e) {
+    $('#requests-f75d8593-2aa7-4306-a4d7-081da49cdd79').addClass('collapsed')
+    $('#collapse-f75d8593-2aa7-4306-a4d7-081da49cdd79').addClass('collapsed')
+    $('#requests-f75d8593-2aa7-4306-a4d7-081da49cdd79').removeClass('show')
+    $('#collapse-f75d8593-2aa7-4306-a4d7-081da49cdd79').removeClass('show')
+    $('#requests-0bd21a05-a883-451e-bd71-c7d1e238ab7e').addClass('collapsed')
+    $('#collapse-0bd21a05-a883-451e-bd71-c7d1e238ab7e').addClass('collapsed')
+    $('#requests-0bd21a05-a883-451e-bd71-c7d1e238ab7e').removeClass('show')
+    $('#collapse-0bd21a05-a883-451e-bd71-c7d1e238ab7e').removeClass('show')
+    $('#requests-248ea770-b9f0-49be-81dc-cfdc0ab92c32').addClass('collapsed')
+    $('#collapse-248ea770-b9f0-49be-81dc-cfdc0ab92c32').addClass('collapsed')
+    $('#requests-248ea770-b9f0-49be-81dc-cfdc0ab92c32').removeClass('show')
+    $('#collapse-248ea770-b9f0-49be-81dc-cfdc0ab92c32').removeClass('show')
+})
+</script>
+
+<script>
+function isJSON(data)
+{
+    var ret = true;
+    try {
+            JSON.parse(data);
+    }catch(e) {
+            ret = false;
+    }
+    return ret;
+}
+
+function isXML(data)
+{
+    return (data.length > 0 && data[0] === '<');
+}
+
+// see https://gist.github.com/sente/1083506/d2834134cd070dbcc08bf42ee27dabb746a1c54d#gistcomment-2254622
+function formatXML(data) {
+    const PADDING = ' '.repeat(2); // set desired indent size here
+    const reg = /(>)(<)(\/*)/g;
+    let pad = 0;
+    xml = data.replace(reg, '$1\r\n$2$3');
+
+    return xml.split('\r\n').map((node, index) => {
+        let indent = 0;
+        if (node.match(/.+<\/\w[^>]*>$/)) {
+            indent = 0;
+        } else if (node.match(/^<\/\w/) && pad > 0) {
+            pad -= 1;
+        } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
+            indent = 1;
+        } else {
+            indent = 0;
+        }
+
+        pad += indent;
+        return PADDING.repeat(pad - indent) + node;
+    }).join('\r\n');
+}
+
+$(".prettyPrint").each(function () {
+        var data = $(this).text();
+        // Verify whether data is JSON
+        if(isJSON(data))
+        {
+                obj = JSON.parse(data);
+                data = JSON.stringify(obj, null, 2);
+        }
+        else if(isXML(data)) {
+            data = formatXML(data);            
+        }
+        $(this).text(data);
+});
+</script>
+
+
+<!-- Copy Response Body To Clipboard -->
+<script>
+    var clipboard = new ClipboardJS('.copyButton');
+
+    clipboard.on('success', function(e) {
+        e.clearSelection();
+        $(".copyButton").addClass("bg-success text-white")
+        e.trigger.textContent = '✔ Copied!';
+        window.setTimeout(function() {
+            $(".copyButton").removeClass("bg-success text-white")
+            e.trigger.textContent = 'Copy to Clipboard';
+        }, 2000);
+    });
+    clipboard.on('error', function(e) {
+        e.clearSelection();
+        $(".copyButton").addClass("bg-danger text-white")
+        e.trigger.textContent = '✗ Not Copied';
+        window.setTimeout(function() {
+            $(".copyButton").removeClass("bg-danger text-white")
+            e.trigger.textContent = 'Copy to Clipboard';
+        }, 2000);
+    });
+
+</script>
+
+<!-- Render the Description Markdown -->
+<script>
+    const remarkable = new Remarkable();
+
+    const descriptions = document.querySelectorAll("#description");
+    descriptions.forEach(description => {
+        description.innerHTML = renderHtmlFromMarkdown(description.textContent);
+    });
+    function renderHtmlFromMarkdown(markdown) {
+        return remarkable.render(trim(markdown));
+    }
+    function trim(string) {
+        return string ? string.replace(/^ +| +$/gm, "") : string;
+    }
+</script>
+
+<script>
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    document.getElementById("topOfRequestsScreen").style.display = "block";
+    document.getElementById("topOfFailuresScreen").style.display = "block";
+    document.getElementById("topOfSkippedScreen").style.display = "block";
+    document.getElementById("topOfLogsScreen").style.display = "block";
+    document.getElementById("openAll").style.display = "none";
+    document.getElementById("closeAll").style.display = "none";
+    document.getElementById("openAllRequests").style.display = "none";
+    document.getElementById("closeAllRequests").style.display = "none";
+  } else {
+    document.getElementById("topOfRequestsScreen").style.display = "none";
+    document.getElementById("topOfFailuresScreen").style.display = "none";
+    document.getElementById("topOfSkippedScreen").style.display = "none";
+    document.getElementById("topOfLogsScreen").style.display = "none";
+    document.getElementById("openAll").style.display = "block";
+    document.getElementById("closeAll").style.display = "block";
+    document.getElementById("openAllRequests").style.display = "block";
+    document.getElementById("closeAllRequests").style.display = "block";
+  }
+}
+
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
+
+<script type="text/javascript">
+    "use strict";
+
+window.onload = function () {
+
+  // hides all blocks of response
+  var allItems = document.querySelectorAll('[class*=iteration-]');
+  allItems.forEach(function(elem){
+    elem.style.display = 'none';
+  });
+
+   
+  let totalIterations = 1;
+   
+
+  let menu = document.querySelector('#execution-menu .nav');
+
+  for(var i = 0; i < totalIterations; i++)
+  {
+    let li = document.createElement('li');
+    li.appendChild(document.createTextNode((i + 1)));
+    li.setAttribute('id', 'iteration-' + i);
+    li.classList.add("custom-tab");
+    li.classList.add("itPassed");
+
+    li.addEventListener('click', function() {
+
+      let allItems = document.querySelectorAll('[class*=iteration-]');
+      allItems.forEach(function(elem) {
+        elem.style.display = 'none';
+      })
+
+      let allMenus = document.querySelectorAll('[id*=iteration-]');
+      allMenus.forEach(function(elem){
+        elem.style.borderBottom = 'none';
+      })
+    
+      this.style.borderBottom = 'solid 3px #032a33';
+
+      let items = document.querySelectorAll("." + this.id);
+      items.forEach(function(elem) {
+        elem.style.display = elem.style.display == 'block' ? 'none' : 'block';
+      })
+    });
+    menu.appendChild(li);
+  }
+
+  //shows first tab data
+  document.getElementById('iteration-0').click();
+  document.getElementById('iterationSelected').innerHTML = `Iteration ${document.getElementById('iteration-0').innerHTML} selected`
+
+}
+</script>
+
+<script>
+$(document).ready(function(){
+    $(function() {
+        $("#iterationList li").click(function() {
+            document.getElementById('iterationSelected').innerHTML = "Iteration " + this.innerHTML + " selected"
+        });
+    });
+});
+</script>
+
+
+<script>
+$(document).ready(function(){
+  $("#filterInput").on("input paste", function() {
+    var value = $(this).val();
+    $("#iterationList li").filter(function() {
+      $(this).toggle($(this).text().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+<script>
+        function setTheme(themeName) {
+            localStorage.setItem('theme', themeName);
+            document.body.className = themeName;
+        }
+
+        function toggleTheme() {
+            if (localStorage.getItem('theme') === 'theme-light') {
+                setTheme('theme-dark');
+            } else {
+                setTheme('theme-light');
+            }
+        }
+
+        (function () {
+            if (localStorage.getItem('theme') === 'theme-light') {
+                setTheme('theme-light');
+                document.getElementById('slider').checked = false;
+            } else {
+                setTheme('theme-dark');
+                document.getElementById('slider').checked = true;
+            }
+        })();
+</script>
