@@ -4,7 +4,7 @@ Currency Converter API is a REST API which gives the current rate of around 77 c
 
 This API is freely available on https://rapidapi.com/natkapral/api/currency-converter5.
 
-Using Postman and Newman we have automated this API.
+Using Postman and Newman I have automated this API.
 
 ## Getting Started
 
