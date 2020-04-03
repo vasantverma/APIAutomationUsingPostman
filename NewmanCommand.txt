@@ -1,0 +1,1 @@
+newman run CurrencyConverterAPI_postman_collection.json --environment "CurrencyConverterAPI_postman_environment.json" -r htmlextra --reporter-htmlextra-title "Test Summary Report" --reporter-htmlextra-logs --reporter-htmlextra-export Reports/TestResults.html --reporter-htmlextra-skipHeaders X-RapidAPI-Key
