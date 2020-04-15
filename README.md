@@ -6,6 +6,16 @@ This API is freely available on https://rapidapi.com/natkapral/api/currency-conv
 
 Using Postman and Newman I have automated this API.
 
+## Features
+
+* Common API Testcases are added at the Collection level in Postman under Tests tab. 
+
+* API specific testcases are added at the request level under the Tests tab.
+
+* Uses Postman variables for providing Base URI,Path Parameters,Query Parameters and API Key.
+
+* Implemented Automation uisng Newman and HTML Extra Reporter.
+
 ## Getting Started
 
 Step 1. Clone or download this repository.
