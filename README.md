@@ -12,7 +12,7 @@ Using Postman and Newman I have automated this API.
 
 * API specific testcases are added at the request level under the Tests tab.
 
-* Uses Postman variables for providing Base URI,Path Parameters,Query Parameters and API Key.
+* Postman variables for providing Base URI,Path Parameters,Query Parameters and API Key.
 
 * Implemented Automation uisng Newman and HTML Extra Reporter.
 
